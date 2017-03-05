@@ -1,0 +1,8 @@
+flake8
+nose
+pep257
+pylint
+flaky
+yapf
+pre-commit
+pre-commit-hooks

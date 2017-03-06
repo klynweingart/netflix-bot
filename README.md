@@ -8,7 +8,7 @@ Our bot is the place to keep track of all that, so you can have your own persona
 
 Your boy or girl arrived at your place and you don't know what to do ? Don't Panic ! NetflixAndChillBot is your solution !
 
-Just let him know and he's happy to help.
+Just let him know and he's happy to help :wink: :movie_camera:
 
 # How to use it ?
 

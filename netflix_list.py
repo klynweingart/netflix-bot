@@ -34,15 +34,3 @@ class NetflixList():
 
 	def get(self, n):
 		return list(self.films.values())[:n]
-
-nl = NetflixList()
-
-nl.add(142, 'Good WillHunting')
-nl.add(5, 'The Shining')
-nl.add(3, 'Taken')
-nl.add(3, 'Good WillHunting 2')
-nl.add(14, 'The Shining 2')
-nl.add(10, 'Taken 2')
-
-
-

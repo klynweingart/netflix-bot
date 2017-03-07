@@ -1,1 +1,2 @@
-web: python Netflix_and_chill_bot.py site:netflix-bot
+web: pip install python-telegram-bot --upgrade
+python Netflix_and_chill_bot.py

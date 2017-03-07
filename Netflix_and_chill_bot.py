@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from Telegram_bot import *
 from netflix_list import *
-import emoji
 
 class Netflix_and_chill_bot(Telegram_bot):
     

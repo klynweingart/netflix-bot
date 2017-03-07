@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Telegram_bot import *
 from netflix_list import *
 
@@ -19,6 +20,9 @@ class Netflix_and_chill_bot(Telegram_bot):
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
 		## TODO
 		
+	def tell_bernardo_i_want(self, bot, update, args):
+		text_answer = "Bernardo, Katelyn says she wants " + ''.join(args) + " U+1F618"
+		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
 		
 	## Main function #2, displays some (one or more ? ) movies to the user.
 	def get_movies(self, bot, update, args):
@@ -47,10 +51,8 @@ class Netflix_and_chill_bot(Telegram_bot):
 		## Receives as parameter the name of the function and the command
 		self.add_function(self.add_movie, "add")
 		self.add_function(self.get_movies, "get")
-		
-		
-		
-		
+		self.add_function(self.tell_bernardo_i_want, "tellBernardoIWant")
+
 		
 		
 #------------------------------------------------------------#
@@ -60,8 +62,13 @@ bot = Netflix_and_chill_bot(token)
 #------------------------------------------------------------#
 
 ## Set-up start message (using super-class function)
+<<<<<<< HEAD
 start_message = '''Hi there! I'm a bot designed for NetflixAndChill's \
 hardest task, choosing what to watch! Talk to me for help!'''
+=======
+start_message = ''' Hi Kate ! I'm a bot designed for NetflixAndChill's \
+hardest task, choosing what to watch ! talk to me for help!'''
+>>>>>>> 38692f7dca8a54e6da38ae8f450218cf0bcd9b58
 bot.define_start_message(start_message)
 #------------------------------------------------------------#
 ## Set-up of functions

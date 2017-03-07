@@ -61,8 +61,7 @@ bot = Netflix_and_chill_bot(token)
 
 ## Set-up start message (using super-class function)
 start_message = ''' Hi there ! I'm a bot designed for NetflixAndChill's \
-hardest task, choosing what to watch !
-        talk to me for help!'''
+hardest task, choosing what to watch ! talk to me for help!'''
 bot.define_start_message(start_message)
 #------------------------------------------------------------#
 ## Set-up of functions

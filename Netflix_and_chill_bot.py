@@ -15,7 +15,7 @@ class Netflix_and_chill_bot(Telegram_bot):
 		movie_name = ' '.join(args)
 		priority = 1 # TODO Fix in a proper way...
 		self.queue.add(priority, movie_name)
-		text_answer = "<< " + movie_name + " >>" + " added to your watchList !"
+		text_answer = "<< " + movie_name + " >>" + " added to your watchlist!"
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
 		## TODO
 		
@@ -34,7 +34,7 @@ class Netflix_and_chill_bot(Telegram_bot):
 			return
 		
 		bot_text = "Here they are! the next " + str(number_of_movies) + \
-		" movies to watch ! \n"
+		" movies to watch! \n"
 		for movie in self.queue.get(number_of_movies):
 			bot_text += movie.query + '\n'
 				
@@ -60,8 +60,8 @@ bot = Netflix_and_chill_bot(token)
 #------------------------------------------------------------#
 
 ## Set-up start message (using super-class function)
-start_message = ''' Hi there ! I'm a bot designed for NetflixAndChill's \
-hardest task, choosing what to watch ! talk to me for help!'''
+start_message = '''Hi there! I'm a bot designed for NetflixAndChill's \
+hardest task, choosing what to watch! Talk to me for help!'''
 bot.define_start_message(start_message)
 #------------------------------------------------------------#
 ## Set-up of functions

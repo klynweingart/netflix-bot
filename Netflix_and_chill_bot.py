@@ -13,7 +13,10 @@ bot = Netflix_and_chill_bot(token)
 
 start_message = ''' Hi there ! I'm a bot designed for NetflixAndChill's hardest task, choosing what to watch !
         talk to me for help!'''
+        
 bot.define_start_message(start_message)
 
 
-
+## ATENTION ! ERROR MESSAGE SHOULD ALWAYS BE AT LAST !
+error_message = "Sorry, I didn't understand that command."
+bot.define_error_message(error_message)

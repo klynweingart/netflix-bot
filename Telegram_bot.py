@@ -15,6 +15,18 @@ class Telegram_bot(object):
 		start_handler = CommandHandler('start', start)
 		self.dispatcher.add_handler(start_handler)
 		self.run()
+		
+	def add_function(self, function, name):
+		from telegram.ext import CommandHandler
+		function_handler = CommandHandler(name, function, pass_args=True)
+		self.dispatcher.add_handler(function_handler)
+		self.run()
 
 	def run(self):
 		self.updater.start_polling()
+		
+	def define_error_message(self, message):
+		def unknown(bot, update):
+			bot.sendMessage(chat_id=update.message.chat_id, text=message)
+		unknown_handler = MessageHandler(Filters.command, unknown)
+		self.dispatcher.add_handler(unknown_handler)

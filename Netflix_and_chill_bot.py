@@ -15,7 +15,7 @@ class Netflix_and_chill_bot(Telegram_bot):
 		movie_name = ' '.join(args)
 		priority = 1 # TODO Fix in a proper way...
 		self.queue.add(priority, movie_name)
-		text_answer = "<< " + movie_name + " >>" + " added to your watchList !"
+		text_answer = "<< " + movie_name + " >>" + " added to your watchlist!"
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
 		## TODO
 		

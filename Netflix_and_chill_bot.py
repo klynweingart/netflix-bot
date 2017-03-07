@@ -17,6 +17,7 @@ class Netflix_and_chill_bot(Telegram_bot):
 		self.queue.add(priority, movie_name)
 		text_answer = "<< " + movie_name + " >>" + " added to your watchlist!"
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
+		## TODO
 		
 		
 	## Main function #2, displays some (one or more ? ) movies to the user.
@@ -39,6 +40,7 @@ class Netflix_and_chill_bot(Telegram_bot):
 				
 		
 		bot.sendMessage(chat_id=update.message.chat_id, text=bot_text)
+		## TODO
 			
 	## List of functions to add to the bot! 	
 	def add_functions(self):
@@ -58,10 +60,13 @@ bot = Netflix_and_chill_bot(token)
 #------------------------------------------------------------#
 
 ## Set-up start message (using super-class function)
-
-#------------------------------------------------------------#
+<<<<<<< HEAD
+start_message = ''' Hi there ! I'm a bot designed for NetflixAndChill's \
+hardest task, choosing what to watch ! talk to me for help!'''
+=======
 start_message = '''Hi there! I'm a bot designed for NetflixAndChill's \
 hardest task, choosing what to watch! Talk to me for help!'''
+>>>>>>> c886f8948503443f2e165fb37abbdee23b307433
 bot.define_start_message(start_message)
 #------------------------------------------------------------#
 ## Set-up of functions

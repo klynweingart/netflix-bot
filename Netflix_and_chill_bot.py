@@ -21,7 +21,7 @@ class Netflix_and_chill_bot(Telegram_bot):
 		## TODO
 		
 	def tell_bernardo_i_want(self, bot, update, args):
-		text_answer = "Bernardo, Katelyn says she wants " + args + " ;)"
+		text_answer = "Bernardo, Katelyn says she wants " + ' '.join(args) + " ;)"
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
 		
 	## Main function #2, displays some (one or more ? ) movies to the user.

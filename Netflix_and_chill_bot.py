@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Telegram_bot import *
 from netflix_list import *
 from db import DBMS
@@ -17,6 +18,7 @@ class Netflix_and_chill_bot(Telegram_bot):
 		movie_name = ' '.join(args)
 		priority = 1 # TODO Fix in a proper way...
 		self.queue.add(priority, movie_name)
+<<<<<<< HEAD
 		#Insert to database...
 		#------------------------------------------------------------#
 		movie_id = hash(movie_name) # TODO fix.
@@ -24,15 +26,21 @@ class Netflix_and_chill_bot(Telegram_bot):
 		self.db.insert_row( row)
 		#------------------------------------------------------------#
 		text_answer = "<< " + movie_name + " >>" + " added to your watchList !"
+=======
+		text_answer = "<< " + movie_name + " >>" + " added to your watchlist!"
+>>>>>>> 9273cde0a5ed9924d205291fb4bb1f7314db37b0
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
 		
 	def tell_bernardo_i_want(self, bot, update, args):
 		text_answer = "Bernardo, Katelyn says she wants " + ' '.join(args) + " ;)"
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
+<<<<<<< HEAD
 	
 	def tell_Katelyn_i_want(self, bot, update, args):
 		text_answer = "Katelyn, Bernardo says he wants " + ' '.join(args) + " ;)"
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
+=======
+>>>>>>> 9273cde0a5ed9924d205291fb4bb1f7314db37b0
 		
 	## Main function #2, displays some (one or more ? ) movies to the user.
 	def get_movies(self, bot, update, args):
@@ -48,9 +56,15 @@ class Netflix_and_chill_bot(Telegram_bot):
 			return
 		
 		bot_text = "Here they are! the next " + str(number_of_movies) + \
+<<<<<<< HEAD
 		" movies to watch ! \n"
 		for movie in self.db.get_rows(update.message.chat_id, number_of_movies):
 			bot_text += "* " + movie + '\n'
+=======
+		" movies to watch! \n"
+		for movie in self.queue.get(number_of_movies):
+			bot_text += movie.query + '\n'
+>>>>>>> 9273cde0a5ed9924d205291fb4bb1f7314db37b0
 				
 		
 		bot.sendMessage(chat_id=update.message.chat_id, text=bot_text)
@@ -60,10 +74,8 @@ class Netflix_and_chill_bot(Telegram_bot):
 		## Receives as parameter the name of the function and the command
 		self.add_function(self.add_movie, "add")
 		self.add_function(self.get_movies, "get")
-		
-		
-		
-		
+		self.add_function(self.tell_bernardo_i_want, "tellBernardoIWant")
+
 		
 		
 #------------------------------------------------------------#
@@ -73,8 +85,8 @@ bot = Netflix_and_chill_bot(token)
 #------------------------------------------------------------#
 
 ## Set-up start message (using super-class function)
-start_message = ''' Hi Kate rofl :P ! I'm a bot designed for NetflixAndChill's \
-hardest task, choosing what to watch ! talk to me for help!'''
+start_message = '''Hi Kate rofl :P! I'm a bot designed for NetflixAndChill's \
+hardest task, choosing what to watch! Talk to me for help!'''
 bot.define_start_message(start_message)
 #------------------------------------------------------------#
 ## Set-up of functions

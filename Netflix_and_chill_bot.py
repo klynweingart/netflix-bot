@@ -17,7 +17,7 @@ class Netflix_and_chill_bot(Telegram_bot):
 		self.db.insert_film(row)
 
 	def delete_movie_from_db(self, movie_name, update):
-		movie_id = get_movie_id(movie_name) # TODO fix / get real ID
+		movie_id = self.get_movie_id(movie_name) # TODO fix / get real ID
 		row = (update.message.chat_id, movie_id, movie_name)
 		return self.db.delete_film(row)
 

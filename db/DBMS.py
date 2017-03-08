@@ -51,13 +51,14 @@ class DBMS:
 		self.cursor = self.connection.cursor()
 		sql = """DELETE FROM netflix_and_chill WHERE id_chat=? AND movie_id=? AND movie_name=?"""
 			
-		if self.cursor.execute(sql, row): print "Row deleted"
-		else: print "Error deleting row"
+		delete_worked = self.cursor.execute(sql, row)
 		
 		# Exiting properly...
 		self.cursor.close()
 		self.connection.commit()
 		self.connection.close()
+
+		return delete_worked
 
 	# Row should be a tuple of parameters respecting types of table
 	def film_exists(self, row):

@@ -47,10 +47,10 @@ class Netflix_and_chill_bot(Telegram_bot):
 		movie_name = ' '.join(args)
 		film_existed = self.delete_movie_from_db(movie_name, update)
 
-		if not film_existed:
-			text_answer = "<< " + movie_name + " >>" + " not in watchlist!"
-		else:
+		if film_existed:
 			text_answer = "<< " + movie_name + " >>" + " removed from watchlist!"
+		else:
+			text_answer = "<< " + movie_name + " >>" + " not in watchlist!"
 
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
 		

@@ -1,5 +1,6 @@
 from Telegram_bot import *
 from netflix_list import *
+from db import DBMS
 
 class Netflix_and_chill_bot(Telegram_bot):
     
@@ -9,16 +10,29 @@ class Netflix_and_chill_bot(Telegram_bot):
 		self.name = "NetflixAndChillBot"
 		self.version = "1.0"
 		self.queue = NetflixList() # TODO Generalize
+		self.db = DBMS.DBMS()
 		
 	## Main function #1, adds a movie to the To-Watch list
 	def add_movie(self, bot, update, args):
 		movie_name = ' '.join(args)
 		priority = 1 # TODO Fix in a proper way...
 		self.queue.add(priority, movie_name)
+		#Insert to database...
+		#------------------------------------------------------------#
+		movie_id = hash(movie_name) # TODO fix.
+		row = (update.message.chat_id, movie_id, movie_name)
+		self.db.insert_row( row)
+		#------------------------------------------------------------#
 		text_answer = "<< " + movie_name + " >>" + " added to your watchList !"
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
-		## TODO
 		
+	def tell_bernardo_i_want(self, bot, update, args):
+		text_answer = "Bernardo, Katelyn says she wants " + ' '.join(args) + " ;)"
+		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
+	
+	def tell_Katelyn_i_want(self, bot, update, args):
+		text_answer = "Katelyn, Bernardo says he wants " + ' '.join(args) + " ;)"
+		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
 		
 	## Main function #2, displays some (one or more ? ) movies to the user.
 	def get_movies(self, bot, update, args):
@@ -35,12 +49,11 @@ class Netflix_and_chill_bot(Telegram_bot):
 		
 		bot_text = "Here they are! the next " + str(number_of_movies) + \
 		" movies to watch ! \n"
-		for movie in self.queue.get(number_of_movies):
-			bot_text += movie.query + '\n'
+		for movie in self.db.get_rows(update.message.chat_id, number_of_movies):
+			bot_text += "* " + movie + '\n'
 				
 		
 		bot.sendMessage(chat_id=update.message.chat_id, text=bot_text)
-		## TODO
 			
 	## List of functions to add to the bot! 	
 	def add_functions(self):

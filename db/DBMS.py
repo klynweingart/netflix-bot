@@ -49,9 +49,7 @@ class DBMS:
 	def delete_film(self, row):
 		self.connection = sqlite3.connect(self.db_name)
 		self.cursor = self.connection.cursor()
-		sql = """
-		DELETE FROM netflix_and_chill(id_chat, movie_id, movie_name)
-		 WHERE id_chat=? AND movie_id=? AND movie_name=?"""
+		sql = """DELETE FROM netflix_and_chill WHERE id_chat=? AND movie_id=? AND movie_name=?"""
 			
 		if self.cursor.execute(sql, row): print "Row deleted"
 		else: print "Error deleting row"

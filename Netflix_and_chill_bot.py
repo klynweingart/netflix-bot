@@ -10,22 +10,47 @@ class Netflix_and_chill_bot(Telegram_bot):
 		super(Netflix_and_chill_bot, self).__init__(Token)
 		self.name = "NetflixAndChillBot"
 		self.version = "1.0"
-		self.queue = NetflixList() # TODO Generalize
 		self.db = DBMS.DBMS()
-		
-	## Main function #1, adds a movie to the To-Watch list
+	
+	def add_movie_to_db(self, movie_name, update):
+		row = (update.message.chat_id, self.get_movie_id(movie_name), movie_name)
+		self.db.insert_film(row)
+
+	def delete_movie_from_db(self, movie_name, update):
+		movie_id = get_movie_id(movie_name) # TODO fix / get real ID
+		row = (update.message.chat_id, movie_id, movie_name)
+		return self.db.delete_film(row)
+
+	def get_priority(self, movie_name):
+		return 1 # TODO Fix in a proper way...
+
+	def get_movie_id(self, movie_name):
+		return hash(movie_name)  # TODO fix / get real ID
+
 	def add_movie(self, bot, update, args):
 		movie_name = ' '.join(args)
-		priority = 1 # TODO Fix in a proper way...
-		self.queue.add(priority, movie_name)
+		film_id = self.get_movie_id(movie_name)
 
-		#Insert to database...
-		#------------------------------------------------------------#
-		movie_id = hash(movie_name) # TODO fix.
-		row = (update.message.chat_id, movie_id, movie_name)
-		self.db.insert_row( row)
-		#------------------------------------------------------------#
-		text_answer = "<< " + movie_name + " >>" + " added to your watchList !"
+		row = (update.message.chat_id, film_id, movie_name)
+		film_existed = self.db.film_exists(row)
+
+		if film_existed:
+			text_answer = "<< " + movie_name + " >>" + " already in watchlist!"
+		else:
+			self.add_movie_to_db(movie_name, update)
+			text_answer = "<< " + movie_name + " >>" + " added to your watchlist!"
+
+		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
+
+
+	def delete_movie(self, bot, update, args):
+		movie_name = ' '.join(args)
+		film_existed = self.delete_movie_from_db(movie_name, update)
+
+		if not film_existed:
+			text_answer = "<< " + movie_name + " >>" + " not in watchlist!"
+		else:
+			text_answer = "<< " + movie_name + " >>" + " removed from watchlist!"
 
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
 		
@@ -62,6 +87,7 @@ class Netflix_and_chill_bot(Telegram_bot):
 	def add_functions(self):
 		## Receives as parameter the name of the function and the command
 		self.add_function(self.add_movie, "add")
+		self.add_function(self.delete_movie, "delete")
 		self.add_function(self.get_movies, "get")
 		self.add_function(self.tell_bernardo_i_want, "tellBernardoIWant")
 		self.add_function(self.tell_Katelyn_i_want, "tellKatelynIWant")

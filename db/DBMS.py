@@ -30,11 +30,11 @@ class DBMS:
 		self.connection.close()
 
 	# Row should be a tuple of parameters respecting types of the table
-	def insert_row(self, row):
+	def insert_film(self, row):
 		self.connection = sqlite3.connect(self.db_name)
 		self.cursor = self.connection.cursor()
 		sql = """
-		INSERT INTO netflix_and_chill( id_chat, movie_id, movie_name)
+		INSERT INTO netflix_and_chill(id_chat, movie_id, movie_name)
 		VALUES (?, ?, ?) """
 			
 		if self.cursor.execute(sql, row): print "Row inserted"
@@ -44,7 +44,45 @@ class DBMS:
 		self.cursor.close()
 		self.connection.commit()
 		self.connection.close()
+
+	# Row should be a tuple of parameters respecting types of the table
+	def delete_film(self, row):
+		self.connection = sqlite3.connect(self.db_name)
+		self.cursor = self.connection.cursor()
+		sql = """
+		DELETE FROM netflix_and_chill(id_chat, movie_id, movie_name)
+		VALUES (?, ?, ?) """
+			
+		if self.cursor.execute(sql, row): print "Row deleted"
+		else: print "Error deleting row"
 		
+		# Exiting properly...
+		self.cursor.close()
+		self.connection.commit()
+		self.connection.close()
+
+	# Row should be a tuple of parameters respecting types of the table
+	def film_exists(self, row):
+		self.connection = sqlite3.connect(self.db_name)
+		self.cursor = self.connection.cursor()
+		results = self.cursor.execute(
+			"""SELECT count(*) FROM netflix_and_chill WHERE id_chat=? AND movie_id=? AND movie_name=?""",
+			row)
+
+		count = self.cursor.fetchone()[0];
+
+		# Exiting properly...
+		self.cursor.close()
+		self.connection.commit()
+		self.connection.close()
+
+		if count:
+			print "There were results"
+			return True
+		else:
+			print "No results"
+			return False
+
 	# Get movies from a chat ! (For example... :P)
 	def get_rows(self, chat_id, number_of_movies):
 		self.connection = sqlite3.connect(self.db_name)

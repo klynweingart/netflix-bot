@@ -59,7 +59,7 @@ class DBMS:
 		self.connection.commit()
 		self.connection.close()
 
-	# Row should be a tuple of parameters respecting types of the table
+	# Row should be a tuple of parameters respecting types of table
 	def film_exists(self, row):
 		self.connection = sqlite3.connect(self.db_name)
 		self.cursor = self.connection.cursor()

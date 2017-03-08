@@ -51,7 +51,6 @@ class Netflix_and_chill_bot(Telegram_bot):
 			return
 		
 		bot_text = "Here they are! the next " + str(number_of_movies) + \
-
 		" movies to watch ! \n"
 		for movie in self.db.get_rows(update.message.chat_id, number_of_movies):
 			bot_text += "* " + movie + '\n'

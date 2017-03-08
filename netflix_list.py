@@ -14,8 +14,10 @@ class NetflixList():
 		self.films = {}
 
 	def add(self, priority, query):
-		self.films[query] = FilmRequest(priority, query)
-		self.films = collections.OrderedDict(sorted(self.films.items(), key=lambda f: f[1].priority))
+		if not self.films[query]:
+			self.films[query] = FilmRequest(priority, query)
+			self.films = collections.OrderedDict(
+				sorted(self.films.items(), key=lambda f: f[1].priority))
 
 	def delete(self, query):
 		if query in self.films:

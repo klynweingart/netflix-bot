@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from Telegram_bot import *
-from netflix_list import *
 from db import DBMS
 
 class Netflix_and_chill_bot(Telegram_bot):
@@ -12,9 +11,9 @@ class Netflix_and_chill_bot(Telegram_bot):
 		self.version = "1.0"
 		self.db = DBMS.DBMS()
 	
-	def add_movie_to_db(self, movie_name, update):
-		row = (update.message.chat_id, self.get_movie_id(movie_name), movie_name)
-		self.db.insert_film(row)
+	def add_movie_to_db(self, movie_name, category, update):
+		row = (update.message.chat_id, self.get_movie_id(movie_name), movie_name, category)
+		return self.db.insert_film(row)
 
 	def delete_movie_from_db(self, movie_name, update):
 		movie_id = self.get_movie_id(movie_name) # TODO fix / get real ID
@@ -28,26 +27,38 @@ class Netflix_and_chill_bot(Telegram_bot):
 		return hash(movie_name)  # TODO fix / get real ID
 
 	def add_movie(self, bot, update, args):
-		movie_name = ' '.join(args)
+		message = ' '.join(args)
+		category = "NULL"
+		# users last word with caps means adding a category!
+		if len(args) > 1:
+			if args[-1] == args[-1].upper(): # is written in caps?
+				category = args[-1]
+				movie_name = ' '.join(args[:-1])
+
+		if category == "NULL":
+			movie_name = ' '.join(args)
+
 		film_id = self.get_movie_id(movie_name)
+		
+		correctly_added = self.add_movie_to_db(movie_name, category, update)
 
-		row = (update.message.chat_id, film_id, movie_name)
-		film_existed = self.db.film_exists(row)
-
-		if film_existed:
-			text_answer = "<< " + movie_name + " >>" + " already in watchlist!"
+		if correctly_added:
+			if category != "NULL":
+				text_answer = "<< " + movie_name + " >>" + " added to your watchlist inside the category: " + category + "!"
+			else:
+				text_answer = "<< " + movie_name + " >>" + " added to your watchlist without category!"
 		else:
-			self.add_movie_to_db(movie_name, update)
-			text_answer = "<< " + movie_name + " >>" + " added to your watchlist!"
+			text_answer = "<< " + movie_name + " >>" + " already in your watchlist (or maybe a database problem)!"
 
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
 
+		
 
 	def delete_movie(self, bot, update, args):
 		movie_name = ' '.join(args)
-		film_existed = self.delete_movie_from_db(movie_name, update)
+		correctly_deleted = self.delete_movie_from_db(movie_name, update)
 
-		if film_existed:
+		if correctly_deleted:
 			text_answer = "<< " + movie_name + " >>" + " removed from watchlist!"
 		else:
 			text_answer = "<< " + movie_name + " >>" + " not in watchlist!"
@@ -64,20 +75,30 @@ class Netflix_and_chill_bot(Telegram_bot):
 		
 	## Main function #2, displays some (one or more ? ) movies to the user.
 	def get_movies(self, bot, update, args):
-		number_of_movies = ''.join(args)
+		message = ' '.join(args)
 		try:
-			if len(number_of_movies) == 0:
+			if len(message) == 0:
 				number_of_movies = 1
 				pass
-			number_of_movies = int(number_of_movies)
+			else:
+				number_of_movies = int(message[0])
 		except ValueError:
 			bot.sendMessage(chat_id=update.message.chat_id, text=" \
 			You should add a number after the get command...")
 			return
-		
-		bot_text = "Here they are! the next " + str(number_of_movies) + \
+		if len(args) > 2:
+			bot.sendMessage(chat_id=update.message.chat_id, text=" \
+			This function accepts two arguments as maximum...")
+			return
+		elif len(args) == 2:
+			category = args[1]
+			bot_text = "Here they are! the next " + category + " " + str(number_of_movies) + \
 		" movies to watch ! \n"
-		for movie in self.db.get_rows(update.message.chat_id, number_of_movies):
+		else: 
+			category = ""
+			bot_text = "Here they are! the next " + str(number_of_movies) + \
+		" movies to watch ! \n"
+		for movie in self.db.get_rows(update.message.chat_id, number_of_movies, category):
 			bot_text += "* " + movie + '\n'
 				
 		
@@ -101,7 +122,7 @@ bot = Netflix_and_chill_bot(token)
 #------------------------------------------------------------#
 
 ## Set-up start message (using super-class function)
-start_message = '''Hi there :P! I'm a bot designed for NetflixAndChill's \
+start_message = '''Hi there :P I'm a bot designed for NetflixAndChill's \
 hardest task, choosing what to watch! Talk to me for help!'''
 bot.define_start_message(start_message)
 #------------------------------------------------------------#

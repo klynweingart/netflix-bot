@@ -19,7 +19,8 @@ class DBMS:
 			id_chat INTEGER NOT NULL,
 			movie_id INTEGER NOT NULL,
 			movie_name VARCHAR(50) NOT NULL,
-			PRIMARY KEY ( id_chat, movie_id))"""
+			category VARCHAR(50),
+			PRIMARY KEY ( id_chat, movie_id, category))"""
 		
 		if self.cursor.execute(sql): print "Table created with success"
 		else: print "Error while creating table"
@@ -31,26 +32,32 @@ class DBMS:
 
 	# Row should be a tuple of parameters respecting types of the table
 	def insert_film(self, row):
+		if self.film_exists(row): return False
 		self.connection = sqlite3.connect(self.db_name)
 		self.cursor = self.connection.cursor()
+
 		sql = """
-		INSERT INTO netflix_and_chill(id_chat, movie_id, movie_name)
-		VALUES (?, ?, ?) """
-			
-		if self.cursor.execute(sql, row): print "Row inserted"
-		else: print "Error inserting row"
+		INSERT INTO netflix_and_chill(id_chat, movie_id, movie_name, category)
+		VALUES (?, ?, ?, ?) """
 		
+		correctly_inserted = self.cursor.execute(sql, row)
+		if correctly_inserted: print "Row inserted"
+		else: print "Error inserting row"
 		# Exiting properly...
+		
 		self.cursor.close()
 		self.connection.commit()
 		self.connection.close()
+
+		return correctly_inserted
 
 	# Row should be a tuple of parameters respecting types of the table
 	def delete_film(self, row):
 		self.connection = sqlite3.connect(self.db_name)
 		self.cursor = self.connection.cursor()
+		if not self.film_exists(row):
+			return False
 		sql = """DELETE FROM netflix_and_chill WHERE id_chat=? AND movie_id=? AND movie_name=?"""
-			
 		delete_worked = self.cursor.execute(sql, row)
 		
 		# Exiting properly...
@@ -65,7 +72,7 @@ class DBMS:
 		self.connection = sqlite3.connect(self.db_name)
 		self.cursor = self.connection.cursor()
 		results = self.cursor.execute(
-			"""SELECT count(*) FROM netflix_and_chill WHERE id_chat=? AND movie_id=? AND movie_name=?""",
+			"""SELECT count(*) FROM netflix_and_chill WHERE id_chat=? AND movie_id=? AND movie_name=? AND category=?""",
 			row)
 
 		count = self.cursor.fetchone()[0];
@@ -83,12 +90,19 @@ class DBMS:
 			return False
 
 	# Get movies from a chat ! (For example... :P)
-	def get_rows(self, chat_id, number_of_movies):
+	def get_rows(self, chat_id, number_of_movies, category):
 		self.connection = sqlite3.connect(self.db_name)
 		self.cursor = self.connection.cursor()
-		sql = """SELECT * FROM netflix_and_chill WHERE id_chat = ? LIMIT ?;"""
-		arguments = (chat_id, number_of_movies)
-		self.cursor.execute(sql, arguments)
+		if category:
+			sql = """SELECT * FROM netflix_and_chill WHERE id_chat = ? AND category = ? LIMIT ?;"""
+			arguments = (chat_id,  category, number_of_movies)
+			self.cursor.execute(sql, arguments)
+		else:
+			sql = """SELECT * FROM netflix_and_chill WHERE id_chat = ? LIMIT ?;"""
+			arguments = (chat_id, number_of_movies)
+			self.cursor.execute(sql, arguments)
+			
+		
 		rows = self.cursor.fetchall()
 		movies = []
 		for row in rows:

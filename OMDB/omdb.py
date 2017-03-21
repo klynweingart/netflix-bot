@@ -6,7 +6,7 @@ from film import Film
 api_key = 'c65f2dbe'
 base_url = 'http://omdbapi.com/?tomatoes=true'
 
-def get_films_by_title(title):
+def get_film_by_title(title):
 	url = base_url + '&t=' + quote_plus(title)
 	print url
 	request = Request(url)
@@ -20,7 +20,7 @@ def get_films_by_title(title):
 		print 'No filmz :(( got an error code'
 		return None
 
-def get_films_by_id(id):
+def get_film_by_id(id):
 	url = base_url + '&i=' + id
 	request = Request(url)
 	try:

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Telegram_bot import *
 from db import DBMS
+from OMDB import omdb
 
 class Netflix_and_chill_bot(Telegram_bot):
     
@@ -51,8 +52,15 @@ class Netflix_and_chill_bot(Telegram_bot):
 			text_answer = "<< " + movie_name + " >>" + " already in your watchlist (or maybe a database problem)!"
 
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
+		self.respond_with_movie(bot, update, movie_name)
 
-		
+	def respond_with_movie(self, bot, update, movie_name):
+		chat_id = update.message.chat_id
+		film = omdb.get_film_by_title(movie_name)
+		if film:
+			text='For request ' + movie_name + ', found:'
+			bot.sendMessage(chat_id=chat_id, text=text)
+			bot.sendPhoto(chat_id=chat_id, photo=film.get_poster)
 
 	def delete_movie(self, bot, update, args):
 		movie_name = ' '.join(args)

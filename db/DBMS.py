@@ -12,18 +12,20 @@ class DBMS:
 		self.db_name = db_name
 		self.connection = sqlite3.connect(db_name)
 		self.cursor = self.connection.cursor()
-		
+
 		# Table's creation
-		sql = """
-		CREATE TABLE IF NOT EXISTS netflix_and_chill (
-			id_chat INTEGER NOT NULL,
+		sql = """CREATE TABLE IF NOT EXISTS netflix_and_chill ( 
+			id_chat INTEGER NOT NULL, 
 			movie_id INTEGER NOT NULL,
 			movie_name VARCHAR(50) NOT NULL,
 			category VARCHAR(50),
-			PRIMARY KEY ( id_chat, movie_id, category))"""
+			PRIMARY KEY (id_chat, movie_id)
+		);"""
+
+		print(sql)
 		
-		if self.cursor.execute(sql): print "Table created with success"
-		else: print "Error while creating table"
+		if self.cursor.execute(sql): print("Table created with success")
+		else: print("Error while creating table")
 		
 		# Exiting properly...
 		self.cursor.close()
@@ -31,18 +33,19 @@ class DBMS:
 		self.connection.close()
 
 	# Row should be a tuple of parameters respecting types of the table
-	def insert_film(self, row):
-		if self.film_exists(row): return False
+	def insert_film(self, row, with_cat):
+		if self.film_exists(row, with_cat): return False
 		self.connection = sqlite3.connect(self.db_name)
 		self.cursor = self.connection.cursor()
 
-		sql = """
-		INSERT INTO netflix_and_chill(id_chat, movie_id, movie_name, category)
-		VALUES (?, ?, ?, ?) """
-		
+		if with_cat:
+			sql = """INSERT INTO netflix_and_chill(id_chat, movie_id, movie_name, category) VALUES (?, ?, ?, ?)"""
+		else:
+			sql = """INSERT INTO netflix_and_chill(id_chat, movie_id, movie_name) VALUES (?, ?, ?)"""
+
 		correctly_inserted = self.cursor.execute(sql, row)
-		if correctly_inserted: print "Row inserted"
-		else: print "Error inserting row"
+		if correctly_inserted: print("Row inserted")
+		else: print("Error inserting row")
 		# Exiting properly...
 		
 		self.cursor.close()
@@ -55,7 +58,7 @@ class DBMS:
 	def delete_film(self, row):
 		self.connection = sqlite3.connect(self.db_name)
 		self.cursor = self.connection.cursor()
-		if not self.film_exists(row):
+		if not self.film_exists(row, False):
 			return False
 		sql = """DELETE FROM netflix_and_chill WHERE id_chat=? AND movie_id=? AND movie_name=?"""
 		delete_worked = self.cursor.execute(sql, row)
@@ -68,12 +71,19 @@ class DBMS:
 		return delete_worked
 
 	# Row should be a tuple of parameters respecting types of table
-	def film_exists(self, row):
+	def film_exists(self, row, with_cat):
+		# print("row:", row)
 		self.connection = sqlite3.connect(self.db_name)
 		self.cursor = self.connection.cursor()
-		results = self.cursor.execute(
-			"""SELECT count(*) FROM netflix_and_chill WHERE id_chat=? AND movie_id=? AND movie_name=? AND category=?""",
-			row)
+		# import pdb; pdb.set_trace()
+		if with_cat:
+			results = self.cursor.execute(
+				"""SELECT count(*) FROM netflix_and_chill WHERE id_chat=? AND movie_id=? AND movie_name=? AND category=?""",
+				row)
+		else:
+			results = self.cursor.execute(
+				"""SELECT count(*) FROM netflix_and_chill WHERE id_chat=? AND movie_id=? AND movie_name=?""",
+				row)
 
 		count = self.cursor.fetchone()[0];
 
@@ -83,10 +93,10 @@ class DBMS:
 		self.connection.close()
 
 		if count:
-			print "There were results"
+			print("There were results")
 			return True
 		else:
-			print "No results"
+			print("No results")
 			return False
 
 	# Get movies from a chat ! (For example... :P)

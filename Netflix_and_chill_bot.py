@@ -13,8 +13,12 @@ class Netflix_and_chill_bot(Telegram_bot):
 		self.db = DBMS.DBMS()
 	
 	def add_movie_to_db(self, movie_name, category, update):
-		row = (update.message.chat_id, self.get_movie_id(movie_name), movie_name, category)
-		return self.db.insert_film(row)
+		if category == "NULL":
+			row = (update.message.chat_id, self.get_movie_id(movie_name), movie_name)
+			return self.db.insert_film(row, False)
+		else:
+			row = (update.message.chat_id, self.get_movie_id(movie_name), movie_name, category)
+			return self.db.insert_film(row, True)
 
 	def delete_movie_from_db(self, movie_name, update):
 		movie_id = self.get_movie_id(movie_name) # TODO fix / get real ID
@@ -30,6 +34,7 @@ class Netflix_and_chill_bot(Telegram_bot):
 	def add_movie(self, bot, update, args):
 		message = ' '.join(args)
 		category = "NULL"
+
 		# users last word with caps means adding a category!
 		if len(args) > 1:
 			if args[-1] == args[-1].upper(): # is written in caps?
@@ -40,19 +45,27 @@ class Netflix_and_chill_bot(Telegram_bot):
 			movie_name = ' '.join(args)
 
 		film_id = self.get_movie_id(movie_name)
-		
+
 		correctly_added = self.add_movie_to_db(movie_name, category, update)
 
-		if correctly_added:
-			if category != "NULL":
-				text_answer = "<< " + movie_name + " >>" + " added to your watchlist inside the category: " + category + "!"
-			else:
-				text_answer = "<< " + movie_name + " >>" + " added to your watchlist without category!"
-		else:
+		if not correctly_added:
 			text_answer = "<< " + movie_name + " >>" + " already in your watchlist (or maybe a database problem)!"
+			return
+
+		movie_found = self.respond_with_movie(bot, update, movie_name)
+		if not movie_found:
+			bot.sendMessage(chat_id=update.message.chat_id, text='Unable to find <<'  +  movie_name + 
+				'>> in IMDB database, but it has still been added to your list!')
+			return
+
+		if category != "NULL":
+			text_answer = "<< " + movie_name + " >>" + " added to your watchlist inside the category: " + category + "!"
+		else:
+			text_answer = "<< " + movie_name + " >>" + " added to your watchlist without category!"
 
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
-		self.respond_with_movie(bot, update, movie_name)
+
+
 
 	def respond_with_movie(self, bot, update, movie_name):
 		chat_id = update.message.chat_id
@@ -60,7 +73,16 @@ class Netflix_and_chill_bot(Telegram_bot):
 		if film:
 			text='For request ' + movie_name + ', found:'
 			bot.sendMessage(chat_id=chat_id, text=text)
-			bot.sendPhoto(chat_id=chat_id, photo=film.get_poster)
+			bot.sendMessage(chat_id=chat_id, text='Title: ' + film.get_title() + '\nGenre: ' + film.get_genre()  +  
+				'\nIMDB Rating: ' + film.get_imdb_rating() + '\nDescription: ' + film.get_description())
+			bot.sendPhoto(chat_id=chat_id, photo=film.get_poster())
+			return True
+		else:
+			return False
+
+	def get_info(self, bot, update, args):
+		movie_name = ' '.join(args)
+		self.respond_with_movie(bot, update, movie_name)
 
 	def delete_movie(self, bot, update, args):
 		movie_name = ' '.join(args)
@@ -80,7 +102,18 @@ class Netflix_and_chill_bot(Telegram_bot):
 	def tell_Katelyn_i_want(self, bot, update, args):
 		text_answer = "Katelyn, Bernardo says he wants " + ' '.join(args) + " ;)"
 		bot.sendMessage(chat_id=update.message.chat_id, text=text_answer)
+
+	## Main function #2, displays some (one or more ? ) movies to the user.
+	def get_all_movies(self, bot, update, args):
+		message = ' '.join(args)
+
+		bot_text = "Here are all your movies-to-watch! \n"
+		for movie in self.db.get_rows(update.message.chat_id, 10000, ""):
+			bot_text += "* " + movie + '\n'
+				
 		
+		bot.sendMessage(chat_id=update.message.chat_id, text=bot_text)
+
 	## Main function #2, displays some (one or more ? ) movies to the user.
 	def get_movies(self, bot, update, args):
 		message = ' '.join(args)
@@ -117,7 +150,9 @@ class Netflix_and_chill_bot(Telegram_bot):
 		## Receives as parameter the name of the function and the command
 		self.add_function(self.add_movie, "add")
 		self.add_function(self.delete_movie, "delete")
+		self.add_function(self.get_info, "getinfo")
 		self.add_function(self.get_movies, "get")
+		self.add_function(self.get_all_movies, "getall")
 		self.add_function(self.tell_bernardo_i_want, "tellBernardoIWant")
 		self.add_function(self.tell_Katelyn_i_want, "tellKatelynIWant")
 

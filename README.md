@@ -19,8 +19,25 @@ You can get in touch with our bot following this link : https://telegram.me/Netf
 
 # First step : Adding movies to your Watchlist.
 
- Kate : Have you ever seen "The silence of the Lambs" ? I really love that movie
+ Kate : Have you ever seen "The silence of the Lambs"? I really love that movie
  Caesar : Oops, nope, I haven't :/
  Kate : We should totally watch it, you're going to love it!
  
- * Kate take her phone and writes in the chat : /add The silence of the Lambs * 
+ **** Kate take her phone and writes in the chat : /add The silence of the Lambs ****
+ 
+ # Second step : Getting information about films.
+ 
+ Caesar : And do you remember the name of the director of that movie you're talking about?
+ Caesar : It isn't that one with that superhero that uses a black costume and looks like a bat?
+ Kate: Mmmh, I'm not really sure, give me a second
+ 
+ **** Kate take her phone and writes in the chat : /getinfo The silence of the Lambs ****
+ 
+ # Third step : Getting movies to watch out of your watchlist.
+
+ Caesar : Cool! We should totally watch it together! But we've tons of movies to watch, how we're going to remember them all?
+ Kate : Amazing! Don't worry, in fact I know a Telegram bot that's pretty cool for that purpose!
+ 
+ SOME DAYS AFTER...
+ 
+  **** Kate take her phone and writes in the chat : /get 4 ****

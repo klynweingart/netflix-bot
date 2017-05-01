@@ -1,4 +1,4 @@
-# netflix-bot
+# netflix-bot V3.0
 
 A random telegram bot with a simple pourpose... Helping people with their Netflix&Chill activity!
 
@@ -12,4 +12,15 @@ Just let him know and he's happy to help :wink: :movie_camera:
 
 # How to use it ?
 
-/** TO - DO - ADD **/
+As any telegram bot in the world, you have to talk with him, wether in a private conversation or  by adding him to a group.
+
+You can get in touch with our bot following this link : https://telegram.me/NetflixAndChillBot
+
+
+# First step : Adding movies to your Watchlist.
+
+ Kate : Have you ever seen "The silence of the Lambs" ? I really love that movie
+ Caesar : Oops, nope, I haven't :/
+ Kate : We should totally watch it, you're going to love it!
+ 
+ * Kate take her phone and writes in the chat : /add The silence of the Lambs * 

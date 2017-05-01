@@ -23,7 +23,7 @@ You can get in touch with our bot following this link : https://telegram.me/Netf
  Caesar : Oops, nope, I haven't :/
  Kate : We should totally watch it, you're going to love it!
  
- **** Kate take her phone and writes in the chat : /add The silence of the Lambs ****
+ ** * Kate take her phone and writes in the chat : /add The silence of the Lambs * 
  
  # Second step : Getting information about films.
  
@@ -31,7 +31,7 @@ You can get in touch with our bot following this link : https://telegram.me/Netf
  Caesar : It isn't that one with that superhero that uses a black costume and looks like a bat?
  Kate: Mmmh, I'm not really sure, give me a second
  
- **** Kate take her phone and writes in the chat : /getinfo The silence of the Lambs ****
+ ** * Kate take her phone and writes in the chat : /getinfo The silence of the Lambs * 
  
  # Third step : Getting movies to watch out of your watchlist.
 
@@ -40,4 +40,4 @@ You can get in touch with our bot following this link : https://telegram.me/Netf
  
  SOME DAYS AFTER...
  
-  **** Kate take her phone and writes in the chat : /get 4 ****
+  ** * Kate take her phone and writes in the chat : /get 4 * 

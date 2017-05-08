@@ -22,7 +22,6 @@ class DBMS:
 			PRIMARY KEY (id_chat, movie_id)
 		);"""
 
-		print(sql)
 		
 		if self.cursor.execute(sql): print("Table created with success")
 		else: print("Error while creating table")

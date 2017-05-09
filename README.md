@@ -6,7 +6,8 @@ People often hear about movies or series when they're not home: for example, whi
 
 Our bot is the place to keep track of all that so no matter where you go, you always have your own personalized list of films or series to watch.
 
-Bae arrived at your place and you don't know what to do? Don't panic! NetflixAndChillBot is here for you!
+Scenario: bae just arrived at your place and you don't know what to do?
+Don't panic, NetflixAndChillBot is here for you!
 
 Just let him know and he's happy to help :wink: :movie_camera:
 

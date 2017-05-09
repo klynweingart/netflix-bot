@@ -6,16 +6,16 @@ People often hear about movies or series when they're not home: for example, whi
 
 Our bot is the place to keep track of all that so no matter where you go, you always have your own personalized list of films or series to watch.
 
-Scenario: bae just arrived at your place and you don't know what to do?
+Scenario: bae just arrived at your place and you don't know what to do?  
 Don't panic, NetflixAndChillBot is here for you!
 
 Just let him know and he's happy to help :wink: :movie_camera:
 
 # How to use it?
 
-As any telegram bot in the world, you can talk with him, whether by messaging him directly or by adding him to a group.
+As with any telegram bot in the world, you can talk with him either by messaging him directly or by adding him to a group.
 
-You can get in touch with our bot following this link: https://telegram.me/NetflixAndChillBot
+Follow this link to get in touch with our bot: https://telegram.me/NetflixAndChillBot
 
 ![axolotls](/readme-images/sshot1.png)
 
@@ -49,9 +49,11 @@ __Kate takes her phone and writes in the chat : /add The Silence of the Lambs__
  
  Kate: I agree! Don't worry, I actually know a Telegram bot who can help!
  
- SOME DAYS AFTER...
+ SEVERAL DAYS LATER...
  
+ Kate: Let's watch a movie tonight, ok?
  
+ Caesar: Totally! Let's choose between 3 of the movies on our list
  
  __Kate take her phone and writes in the chat: /get 3__
  

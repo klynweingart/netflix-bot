@@ -1,4 +1,4 @@
-# netflix-bot V3.0
+# Netflix & Chill Bot
 
 A random telegram bot with a simple pourpose... Helping people with their Netflix&Chill activity!
 
@@ -16,6 +16,7 @@ As any telegram bot in the world, you have to talk with him, wether in a private
 
 You can get in touch with our bot following this link : https://telegram.me/NetflixAndChillBot
 
+![axolotls](/readme-images/sshot1.png)
 
 # First step : Adding movies to your Watchlist.
 
@@ -26,6 +27,8 @@ You can get in touch with our bot following this link : https://telegram.me/Netf
  Kate : We should totally watch it, you're going to love it!
  
 __Kate take her phone and writes in the chat : /add The silence of the Lambs__ 
+
+![axolotls](/readme-images/sshot9.png)
  
  # Second step : Getting information about films.
  
@@ -37,6 +40,8 @@ __Kate take her phone and writes in the chat : /add The silence of the Lambs__
  
  __Kate take her phone and writes in the chat : /getinfo The silence of the Lambs__ 
  
+ ![axolotls](/readme-images/sshot2.png)
+ 
  # Third step : Getting movies to watch out of your watchlist.
 
  Caesar : Cool! We should totally watch it together! But we've tons of movies to watch, how we're going to remember them all?
@@ -45,4 +50,10 @@ __Kate take her phone and writes in the chat : /add The silence of the Lambs__
  
  SOME DAYS AFTER...
  
- __Kate take her phone and writes in the chat : /get 4__
+ 
+ 
+ __Kate take her phone and writes in the chat : /get 3__
+ 
+ ![axolotls](/readme-images/sshot6.png)
+
+<< Voilà >> now they know what to see!
